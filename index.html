@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<title>hextotext</title>
+	
+	<script type="text/javascript">
+		function asciiToHex(str) {
+			let hex = '';
+			for (let i = 0; i < str.length; i++) {
+				hex += str.charCodeAt(i).toString(16).padStart(2, '0');
+			}
+			return hex;
+		}
+
+		function hexToAscii(hex) {
+			let str = '';
+			for (let i = 0; i < hex.length; i += 2) {
+				str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+			}
+			return str;
+		}
+
+		function convertToHex() {
+			const inputText = document.getElementById('text').value;
+			const hexText = asciiToHex(inputText);
+			document.getElementById('result').value = hexText;
+		}
+
+		function convertToAscii() {
+			const hexText = document.getElementById('text').value;
+			const asciiText = hexToAscii(hexText);
+			document.getElementById('result').value = asciiText;
+		}	
+		
+		function allclear() {
+			document.getElementById('text').value = null;
+			document.getElementById('result').value = null;
+		}
+	</script>
+	
+	</head>
+
+	<body>
+		<table>
+			<tr>
+				<td>
+					<h1>Text To Hex / Hex To Text</h1>
+					<div>
+						<div>
+							<div><strong>Текст:</strong></div>
+							<div>
+								<textarea class="form-textarea" rows="7" cols="60" name="text" id="text"></textarea>
+							</div>
+						</div>
+						<div>
+							<div><strong>Формат: XX ASCII</strong></div>
+						</div>
+						<div>
+							<input type="button" value="Кодировать" onclick="convertToHex()" />
+							<input type="button" value="Декодировать" onclick="convertToAscii()" />
+						</div>
+						</br>
+						<div>
+							<div><strong>Результат:</strong></div>
+							<div>
+								<textarea class="form-textarea" rows="7" cols="60" name="result" id="result"></textarea>
+							</div>
+						</div>
+						<div>
+							<input type="button" value="Очистить" onclick="allclear()" />
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
