@@ -4,38 +4,41 @@
 		<title>hextotext</title>
 	
 	<script type="text/javascript">
-		function asciiToHex(str) {
-			let hex = '';
-			for (let i = 0; i < str.length; i++) {
-				hex += str.charCodeAt(i).toString(16).padStart(2, '0');
-			}
-			return hex;
-		}
+        function textToHex(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            let hex = '';
+            for (let i = 0; i < data.length; i++) {
+                hex += data[i].toString(16).padStart(2, '0');
+            }
+            return hex;
+        }
 
-		function hexToAscii(hex) {
-			let str = '';
-			for (let i = 0; i < hex.length; i += 2) {
-				str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-			}
-			return str;
-		}
+        function hexToText(hex) {
+            const decoder = new TextDecoder();
+            const bytes = [];
+            for (let i = 0; i < hex.length; i += 2) {
+                bytes.push(parseInt(hex.substr(i, 2), 16));
+            }
+            return decoder.decode(new Uint8Array(bytes));
+        }
 
-		function convertToHex() {
-			const inputText = document.getElementById('text').value;
-			const hexText = asciiToHex(inputText);
-			document.getElementById('result').value = hexText;
-		}
+        function convertToHex() {
+            const inputText = document.getElementById('text').value;
+            const hexText = textToHex(inputText);
+            document.getElementById('result').value = hexText;
+        }
 
-		function convertToAscii() {
-			const hexText = document.getElementById('text').value;
-			const asciiText = hexToAscii(hexText);
-			document.getElementById('result').value = asciiText;
-		}	
-		
-		function allclear() {
-			document.getElementById('text').value = null;
-			document.getElementById('result').value = null;
-		}
+        function convertToText() {
+            const hexText = document.getElementById('text').value;
+            const asciiText = hexToText(hexText);
+            document.getElementById('result').value = asciiText;
+        }    
+
+        function allclear() {
+            document.getElementById('text').value = '';
+            document.getElementById('result').value = '';
+        }
 	</script>
 	
 	</head>
@@ -53,11 +56,11 @@
 							</div>
 						</div>
 						<div>
-							<div><strong>Формат: XX ASCII</strong></div>
+							<div><strong>Формат: UTF8</strong></div>
 						</div>
 						<div>
 							<input type="button" value="Кодировать" onclick="convertToHex()" />
-							<input type="button" value="Декодировать" onclick="convertToAscii()" />
+							<input type="button" value="Декодировать" onclick="convertToText()" />
 						</div>
 						</br>
 						<div>
